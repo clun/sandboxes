@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:jaxrs="http://cxf.apache.org/jaxrs"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+			http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd">
+	
+	<!-- import des fichiers de configuration CXF -->
+	<import resource="classpath:META-INF/cxf/cxf.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-extension-jaxrs-binding.xml" />
+	<import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+	
+	<!-- Define service or interface -->
+	<bean id="bpf.process.webservice" class="fr.clun.veille.restful.services.RESTProcessServices" />
+	
+	<!-- Export our server to URL -->
+	<jaxrs:server id="bpf.process.exporter" address="/process">
+		<jaxrs:serviceBeans>
+			<ref bean="bpf.process.webservice" />
+		</jaxrs:serviceBeans>
+	</jaxrs:server>
+	
+</beans>

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns="http://www.clun.fr/schema/rule"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.clun.fr/schema/rule"
+	elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+	<xsd:import namespace="http://www.springframework.org/schema/beans" />
+
+	<!-- ****************************************************************** -->
+	<!-- Fichier de definition du namespace pour le moteur de regle         -->
+	<!-- ****************************************************************** -->
+	<!-- La cible recherche est une structure de type :                     -->
+	<!-- ENGINE                                                             -->
+	<!-- 	* LISTE DE CRITERES (pour affecter un offset à chacun)          -->
+	<!--    * LISTE DES SOLUTIONS                                           -->
+	<!--       * Chaque solution une liste de CAS POSSIBLES (state)         -->
+	<!--       	 * Chaque cas est une combinaison de criteres               -->
+	<!-- ****************************************************************** -->
+
+	<!-- Definiton pour engine -->
+	<xsd:element name="engine">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="solution" type="solutionRefType"	minOccurs="1" maxOccurs="unbounded" />
+			</xsd:sequence>
+			<xsd:attribute name="id" type="xsd:ID" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Definition pour une solution -->
+	<xsd:element name="solution">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="state" type="criteriaListType" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+			<xsd:attribute name="id"  type="xsd:ID" use="required" />
+			<xsd:attribute name="ref" type="xsd:string" use="required" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Definition pour un critere -->
+	<xsd:element name="criteria">
+		<xsd:complexType>
+			<xsd:attribute name="id" type="xsd:ID" use="required" />
+			<xsd:attribute name="clazz" type="xsd:string"
+				use="required" />
+			<xsd:attribute name="description" type="xsd:string"
+				use="optional" />
+			<xsd:attribute name="arg0" type="xsd:string" use="optional" />
+			<xsd:attribute name="arg1" type="xsd:string" use="optional" />
+			<xsd:attribute name="arg2" type="xsd:string" use="optional" />
+			<xsd:attribute name="arg3" type="xsd:string" use="optional" />
+			<xsd:attribute name="arg4" type="xsd:string" use="optional" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="state">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="criteria" type="beanRefType"	minOccurs="1" maxOccurs="64" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Permet de faire une reference vers un beans -->
+	<xsd:complexType name="beanRefType">
+		<xsd:attribute name="ref" type="xsd:string" use="required" />
+	</xsd:complexType>
+
+	<xsd:complexType name="solutionRefType">
+		<xsd:sequence>
+			<xsd:element name="state" type="criteriaListType" minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="ref" type="xsd:string" use="required" />
+	</xsd:complexType>
+
+	<!-- Une liste de criteres -->
+	<xsd:complexType name="criteriaListType">
+		<xsd:sequence>
+			<xsd:element name="criteria" type="beanRefType"	minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<!-- Un jeu de solutions -->
+	<xsd:complexType name="solutionListType">
+		<xsd:sequence>
+			<xsd:element name="solution" type="solutionRefType"	minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+</xsd:schema>

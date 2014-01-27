@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xmlns:rule="http://www.clun.fr/schema/rule"
+	  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+							http://www.clun.fr/schema/rule rule-engine.xsd" >
+
+	<!-- ****************************************************************** -->
+	<!--          DEFINITION DE LA LISTE EXHAUSTIVE DES CRITERES            -->
+	<!-- ****************************************************************** -->
+
+	<rule:criteria id="c1" clazz="fr.clun.rule.eai.CriterionFieldEqual" arg0="SW_STEPNAME" 		arg1="SP01ET01" />
+	<rule:criteria id="c2" clazz="fr.clun.rule.eai.CriterionFieldEqual" arg0="CIRCUIT_DIRECT" 	arg1="Y" />
+	<rule:criteria id="c3" clazz="fr.clun.rule.eai.CriterionFieldEqual" arg0="SIGNATAIRE"		arg1="Y" />
+	<rule:criteria id="c4" clazz="fr.clun.rule.eai.CriterionFieldEqual" arg0="SIGNATAIRE"		arg1="N" />
+
+	<!-- ****************************************************************** -->
+	<!--          DEFINITION DE LA LISTE EXHAUSTIVE DES SOLUTIONS           -->
+	<!-- ****************************************************************** -->
+
+	<bean id="s1" class="java.lang.String"><constructor-arg value="S1" /></bean>
+	<bean id="s2" class="java.lang.String"><constructor-arg value="S2" /></bean>
+	<bean id="s3" class="java.lang.String"><constructor-arg value="S3" /></bean>
+
+	<!-- ****************************************************************** -->
+	<!--                       DEFINITION DU SYSTEME                        -->
+	<!-- ****************************************************************** -->	
+
+	<rule:engine id="system2">
+		<rule:solution ref="s1" >
+			<rule:state>
+				<rule:criteria ref="c1" />
+				<rule:criteria ref="c2" />
+			</rule:state>
+			<rule:state>
+				<rule:criteria ref="c2" />
+				<rule:criteria ref="c3" />
+			</rule:state>
+		</rule:solution>
+		<rule:solution ref="s2" >
+			<rule:state>
+				<rule:criteria ref="c1" />
+				<rule:criteria ref="c2" />
+				<rule:criteria ref="c4" />
+			</rule:state>
+		</rule:solution>
+	</rule:engine>
+
+</beans>

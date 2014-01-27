@@ -1,0 +1,129 @@
+<?xml version="1.0"?>
+
+....Chaque layer vit sa vie avec un start/stop, (liste). on recontruit apres
+.... Une annotation avec le nom du profil @Monitor(profileName = "")
+
+
+
+	<!-- AutoProxy to setup advisor and targets -->
+	<bean id="bpf.aop.log.autoproxy" class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+	
+		<property name="beanNames">
+			<list>
+				<value>bpf.services.*</value>
+			</list>
+		</property>
+		
+		<property name="interceptorNames">
+			<list>
+				<value>bpf.aop.failOverAdvisor</value>
+				<value>bpf.aop.monitorAdvisor</value>
+			</list>
+		</property>
+	</bean>
+	
+	
+  <PROFILES>
+  
+  <PROFILE name="CetelemWSProfile" description="" >
+      <LAYER NAME="WEBSERVICES">
+      </LAYER>
+      <LAYER NAME="BACKOFFICE">
+      </LAYER>
+      <LAYER NAME="DSO">
+       <POINTCUTS>
+      	<POINTCUT name="" description="" regexp="com.bpnn.dsdsdsdsdsd.*/**" />
+      	<POINTCUT name="" description="" regexp="com.bpnn.dsdsdsdsdsd.*/**" />
+      	<POINTCUT name="" description="" regexp="com.bpnn.dsdsdsdsdsd.*/**" />
+      	<POINTCUT name="" description="" regexp="com.bpnn.dsdsdsdsdsd.*/**" />
+       </POINTCUTS>
+      </LAYER>
+      <LAYER NAME="TELEMATIQUE">
+      </LAYER>
+   </PROFILE>
+   
+   <PROFILE name="CetelemECProfile" description="" >
+      <LAYER NAME="WEBSERVICES">
+      </LAYER>
+      <LAYER NAME="BACKOFFICE">
+      </LAYER>
+      <LAYER NAME="DSO">
+       <POINTCUTS>
+      	<POINTCUT name="" description="" regexp="com.bpnn.dsdsdsdsdsd.*/**" />
+      	<POINTCUT name="" description="" regexp="com.bpnn.dsdsdsdsdsd.*/**" />
+      	<POINTCUT name="" description="" regexp="com.bpnn.dsdsdsdsdsd.*/**" />
+      	<POINTCUT name="" description="" regexp="com.bpnn.dsdsdsdsdsd.*/**" />
+       </POINTCUTS>
+      </LAYER>
+      <LAYER NAME="TELEMATIQUE">
+      </LAYER>
+   </PROFILE>
+   
+   </PROFILES>
+   
+   <TEST>
+   
+   </TEST>
+   
+   
+   
+    <!-- PointCut pour determiner quand utiliser le system -->
+    <bean id="pointcut.allmethod" class="org.springframework.aop.support.JdkRegexpMethodPointcut">
+		<property name="pattern" value=".*" />
+	</bean>
+    
+    
+    <!-- Implementation de METHOD INTERCEPTOR. -->
+	<bean id="log.interceptor" class="fr.clunven.profiler.advices.LoggingAdvice" />
+	
+	<!-- CREATION DE AVISOR DEPUIS POINTCUT ET INCEPTOR -->
+	<bean id="log.advisor" class="org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor">
+		<property name="adviceBeanName" value="log.interceptor"   />
+		<property name="pointcut" 		ref="bpf.aop.logPointCut" />
+	</bean>
+	
+	
+	
+	<!-- AutoProxy to setup advisor and targets -->
+	<bean id="profiling.autoproxy" class="fr.clunven.profiler.ProfilingAutoProxyCreatorBean">
+		<property name="profiledBeans">
+			<map>
+			
+			</map>
+			<list>
+				<value>bpf.services.*</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>bpf.aop.failOverAdvisor</value>
+				<value>bpf.aop.monitorAdvisor</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- creates a java.util.Map instance with the supplied key-value pairs -->
+	<util:map id="profiling.settings" map-class="java.util.TreeMap">
+    	<entry key="DSO">
+    	  <list>
+    	  	<value>bpf.aop.monitorAdvisor</value>
+    	  </list>
+    	</entry>
+	</util:map>
+    
+	<!--  Fichiers de configuration -->
+	<context:property-placeholder location="classpath:settings.properties" />
+	
+	
+	
+	<!-- Define PointCut to apply Advisor for (each method) -->
+	<bean id="logPointCut" class="org.springframework.aop.support.JdkRegexpMethodPointcut">
+		<property name="pattern" value=".*" />
+	</bean>
+	
+	<!-- Define advisor for advice monitoring -->
+	<bean id="bpf.aop.monitorAdvisor" class="org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor">
+		<property name="adviceBeanName" value="bpf.aop.monitor"   />
+		<property name="pointcut" 		ref="bpf.aop.logPointCut" />
+	</bean>
+	
