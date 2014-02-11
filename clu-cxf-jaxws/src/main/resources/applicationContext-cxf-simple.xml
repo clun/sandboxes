@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:soap="http://cxf.apache.org/bindings/soap"
+       xmlns:simple="http://cxf.apache.org/simple"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://cxf.apache.org/bindings/soap http://cxf.apache.org/schemas/configuration/soap.xsd		
+		http://cxf.apache.org/simple 		http://cxf.apache.org/schemas/simple.xsd"		> 
+	
+	<!-- Load CXF modules from cxf.jar -->
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+    <import resource="classpath:META-INF/cxf/cxf-extension-soap.xml" />
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml" />
+    
+    <bean id="cxf.demo.services.rpg" class="fr.clun.demo.cxf.RPGServicesImpl" />
+    
+  	<simple:server id="cxf.demo.ws.rpg"
+  				   xmlns:s="http://www.clun.fr/"
+  				   address="/rpg"
+  				   endpointName="RPGServicesEndPoint"
+  				   serviceName="RPGServices"
+  				   serviceClass="fr.clun.demo.cxf.RPGServices">
+	 	<simple:serviceBean>
+  			<ref bean="cxf.demo.services.rpg" />
+  		</simple:serviceBean>
+  	</simple:server>  	
+    
+</beans>

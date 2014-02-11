@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- @editor-info:link autogen="true" source="Particulier.jws" -->
+
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:conv="http://www.openuri.org/2002/04/soap/conversation/" xmlns:cw="http://www.openuri.org/2002/04/wsdl/conversation/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:jms="http://www.openuri.org/2002/04/wsdl/jms/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:s0="http://www.csf.fr/ade" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" targetNamespace="http://www.csf.fr/ade">
+
+  <types>
+
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.csf.fr/ade" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:ade="http://www.csf.fr/ade">
+
+      <s:element name="getParticulier">
+
+        <s:complexType>
+
+          <s:sequence>
+
+            <s:element name="numeroAdherent" type="s:string" minOccurs="0"/>
+
+          </s:sequence>
+
+        </s:complexType>
+
+      </s:element>
+
+      <s:element name="getParticulierResponse">
+
+        <s:complexType>
+
+          <s:sequence>
+
+            <s:element name="getParticulierResult" type="ade:ParticulierData" minOccurs="0"/>
+
+          </s:sequence>
+
+        </s:complexType>
+
+      </s:element>
+
+      <s:element name="ParticulierData" nillable="true" type="ade:ParticulierData"/>
+
+      <s:complexType name="ParticulierData">
+
+        <s:sequence>
+
+          <s:element name="numero" type="s:string" minOccurs="0"/>
+
+          <s:element name="civilite" type="s:string" minOccurs="0"/>
+
+          <s:element name="nom" type="s:string" minOccurs="0"/>
+
+          <s:element name="prenom" type="s:string" minOccurs="0"/>
+
+          <s:element name="nomDeNaissance" type="s:string" minOccurs="0"/>
+
+          <s:element name="dateNaissance" type="s:dateTime" minOccurs="0"/>
+
+          <s:element name="codePostalNaissance" type="s:string" minOccurs="0"/>
+
+          <s:element name="lieuNaissance" type="s:string" minOccurs="0"/>
+
+          <s:element name="adresse" type="ade:Adresse" minOccurs="0"/>
+
+          <s:element name="telephones" type="ade:ArrayOfTelephone" minOccurs="0"/>
+
+          <s:element name="mail" type="s:string" minOccurs="0"/>
+
+          <s:element name="retour" type="ade:Retour" minOccurs="0"/>
+
+        </s:sequence>
+
+      </s:complexType>
+
+      <s:complexType name="Adresse">
+
+        <s:sequence>
+
+          <s:element name="numeroVoie" type="s:string" minOccurs="0"/>
+
+          <s:element name="indiceRepetition" type="s:string" minOccurs="0"/>
+
+          <s:element name="typeVoie" type="s:string" minOccurs="0"/>
+
+          <s:element name="nomVoie" type="s:string" minOccurs="0"/>
+
+          <s:element name="complement" type="s:string" minOccurs="0"/>
+
+          <s:element name="codePostal" type="s:string" minOccurs="0"/>
+
+          <s:element name="ville" type="s:string" minOccurs="0"/>
+
+          <s:element name="pays" type="s:string" minOccurs="0"/>
+
+        </s:sequence>
+
+      </s:complexType>
+
+      <s:complexType name="ArrayOfTelephone">
+
+        <s:sequence>
+
+          <s:element name="Telephone" type="ade:Telephone" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+
+        </s:sequence>
+
+      </s:complexType>
+
+      <s:complexType name="Telephone">
+
+        <s:sequence>
+
+          <s:element name="telephone" type="s:string" minOccurs="0"/>
+
+          <s:element name="type" type="s:string" minOccurs="0"/>
+
+        </s:sequence>
+
+      </s:complexType>
+
+      <s:complexType name="Retour">
+
+        <s:sequence/>
+
+      </s:complexType>
+
+    </s:schema>
+
+
+
+  </types>
+
+  <message name="getParticulierSoapIn">
+
+    <part name="parameters" element="s0:getParticulier"/>
+
+  </message>
+
+  <message name="getParticulierSoapOut">
+
+    <part name="parameters" element="s0:getParticulierResponse"/>
+
+  </message>
+
+  <message name="getParticulierHttpGetIn">
+
+    <part name="numeroAdherent" type="s:string"/>
+
+  </message>
+
+  <message name="getParticulierHttpGetOut">
+
+    <part name="Body" element="s0:ParticulierData"/>
+
+  </message>
+
+  <message name="getParticulierHttpPostIn">
+
+    <part name="numeroAdherent" type="s:string"/>
+
+  </message>
+
+  <message name="getParticulierHttpPostOut">
+
+    <part name="Body" element="s0:ParticulierData"/>
+
+  </message>
+
+  <portType name="ParticulierSoap">
+
+    <operation name="getParticulier">
+
+      <input message="s0:getParticulierSoapIn"/>
+
+      <output message="s0:getParticulierSoapOut"/>
+
+    </operation>
+
+  </portType>
+
+  <portType name="ParticulierHttpGet">
+
+    <operation name="getParticulier">
+
+      <input message="s0:getParticulierHttpGetIn"/>
+
+      <output message="s0:getParticulierHttpGetOut"/>
+
+    </operation>
+
+  </portType>
+
+  <portType name="ParticulierHttpPost">
+
+    <operation name="getParticulier">
+
+      <input message="s0:getParticulierHttpPostIn"/>
+
+      <output message="s0:getParticulierHttpPostOut"/>
+
+    </operation>
+
+  </portType>
+
+  <binding name="ParticulierSoap" type="s0:ParticulierSoap">
+
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+
+    <operation name="getParticulier">
+
+      <soap:operation soapAction="http://www.csf.fr/ade/getParticulier" style="document"/>
+
+      <input>
+
+        <soap:body use="literal"/>
+
+      </input>
+
+      <output>
+
+        <soap:body use="literal"/>
+
+      </output>
+
+    </operation>
+
+  </binding>
+
+  <binding name="ParticulierHttpGet" type="s0:ParticulierHttpGet">
+
+    <http:binding verb="GET"/>
+
+    <operation name="getParticulier">
+
+      <http:operation location="/getParticulier"/>
+
+      <input>
+
+        <http:urlEncoded/>
+
+      </input>
+
+      <output>
+
+        <mime:mimeXml part="Body"/>
+
+      </output>
+
+    </operation>
+
+  </binding>
+
+  <binding name="ParticulierHttpPost" type="s0:ParticulierHttpPost">
+
+    <http:binding verb="POST"/>
+
+    <operation name="getParticulier">
+
+      <http:operation location="/getParticulier"/>
+
+      <input>
+
+        <mime:content type="application/x-www-form-urlencoded"/>
+
+      </input>
+
+      <output>
+
+        <mime:mimeXml part="Body"/>
+
+      </output>
+
+    </operation>
+
+  </binding>
+
+  <service name="Particulier">
+
+    <port name="ParticulierSoap" binding="s0:ParticulierSoap">
+
+      <soap:address location="http://localhost:7001/ADEWeb/ade/Particulier.jws"/>
+
+    </port>
+
+    <port name="ParticulierHttpGet" binding="s0:ParticulierHttpGet">
+
+      <http:address location="http://localhost:7001/ADEWeb/ade/Particulier.jws"/>
+
+    </port>
+
+    <port name="ParticulierHttpPost" binding="s0:ParticulierHttpPost">
+
+      <http:address location="http://localhost:7001/ADEWeb/ade/Particulier.jws"/>
+
+    </port>
+
+  </service>
+
+</definitions>
