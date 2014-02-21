@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+    version="2.0">
+    
+    <!-- General Properties -->
+    <description>Library of tag to realize rendering of a GRAPH</description>
+  	<display-name>TagLib Charts</display-name>
+    <tlib-version>1.0</tlib-version>
+    <short-name>tlib-charts</short-name>
+    <uri>http://www.clunven.fr/charts</uri>
+  
+	<!-- Check Feature status -->
+	<tag>
+	 <description>Display a graphdracula graph</description>
+	 <name>graphdracula</name>
+	 <tag-class>fr.clunven.viz.taglib.GraphDraculaTagRender</tag-class>
+	 <body-content>JSP</body-content> 
+  	 <attribute>
+  	 	<description>width of the graph</description>
+   		<name>width</name>
+   		<required>false</required>
+   		<rtexprvalue>true</rtexprvalue>
+  	 </attribute>
+  	  <attribute>
+  	 	<description>height of the graph</description>
+   		<name>height</name>
+   		<required>false</required>
+   		<rtexprvalue>true</rtexprvalue>
+  	 </attribute>
+	</tag>
+
+</taglib>
