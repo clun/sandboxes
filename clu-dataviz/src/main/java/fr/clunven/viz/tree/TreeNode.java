@@ -1,4 +1,4 @@
-package fr.clunven.viz.domain.tree;
+package fr.clunven.viz.tree;
 
 import java.io.Serializable;
 import java.util.ArrayList;

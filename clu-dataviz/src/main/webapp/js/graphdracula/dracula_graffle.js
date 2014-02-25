@@ -1,11 +1,4 @@
 /**
- * Originally grabbed from the official RaphaelJS Documentation
- * http://raphaeljs.com/graffle.html
- * Adopted (arrows) and commented by Philipp Strathausen http://blog.ameisenbar.de
- * Licenced under the MIT licence.
- */
-
-/**
  * Usage:
  * connect two shapes
  * parameters: 
@@ -18,16 +11,16 @@
 Raphael.fn.connection = function (obj1, obj2, style) {
     var selfRef = this;
     /* create and return new connection */
-    var edge = {/*
-        from : obj1,
-        to : obj2,
-        style : style,*/
+    var edge = {
+    	/* from : obj1, to : obj2, style : style,*/
         draw : function() {
-            /* get bounding boxes of target and source */
+            
+        	/* get bounding boxes of target and source */
             var bb1 = obj1.getBBox();
             var bb2 = obj2.getBBox();
             var off1 = 0;
             var off2 = 0;
+            
             /* coordinates for potential connection coordinates from/to the objects */
             var p = [
                 {x: bb1.x + bb1.width / 2, y: bb1.y - off1},              /* NORTH 1 */
@@ -59,6 +52,7 @@ Raphael.fn.connection = function (obj1, obj2, style) {
                 }
             }
             var res = dis.length == 0 ? [0, 4] : d[Math.min.apply(Math, dis).toFixed(3)];
+            
             /* bezier path */
             var x1 = p[res[0]].x,
                 y1 = p[res[0]].y,
@@ -70,19 +64,25 @@ Raphael.fn.connection = function (obj1, obj2, style) {
                 y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3),
                 x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
                 y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
+            
             /* assemble path and arrow */
             var path = ["M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
+            
             /* arrow */
-            if(style && style.directed) {
+            if (style && style.directed) {
+            	
                 /* magnitude, length of the last path vector */
                 var mag = Math.sqrt((y4 - y3) * (y4 - y3) + (x4 - x3) * (x4 - x3));
+                
                 /* vector normalisation to specified length  */
                 var norm = function(x,l){return (-x*(l||5)/mag);};
+                
                 /* calculate array coordinates (two lines orthogonal to the path vector) */
                 var arr = [
                     {x:(norm(x4-x3)+norm(y4-y3)+x4).toFixed(3), y:(norm(y4-y3)+norm(x4-x3)+y4).toFixed(3)},
                     {x:(norm(x4-x3)-norm(y4-y3)+x4).toFixed(3), y:(norm(y4-y3)-norm(x4-x3)+y4).toFixed(3)}
                 ];
+                
                 path = path + ",M"+arr[0].x+","+arr[0].y+",L"+x4+","+y4+",L"+arr[1].x+","+arr[1].y; 
             }
             /* function to be used for moving existent path(s), e.g. animate() or attr() */

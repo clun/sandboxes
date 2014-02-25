@@ -1,6 +1,6 @@
 package fr.clunven.viz.samples;
 
-import fr.clunven.viz.domain.graph.Graph;
+import fr.clunven.domain.graph.Graph;
 
 public class DealsDaoMock {
 	

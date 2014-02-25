@@ -1,4 +1,4 @@
-package fr.clunven.viz.domain.graph;
+package fr.clunven.domain.graph;
 
 import java.io.Serializable;
 import java.util.ArrayList;

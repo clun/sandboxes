@@ -25,10 +25,11 @@ window.onload = function() {
    
     // rendu d'un noeud
     var render2 = function(r, n) {
+    	var width = Math.max(n.label.length * 6 * 14/12, 60);
         var set = r.set();       
         set.push(
-        r.rect(n.point[0]-30, n.point[1]-13, 60, 44).attr({"fill": "#56f", r : "12px", "stroke-width" : n.distance == 0 ? "3px" : "1px" })).push(
-        r.text(n.point[0], n.point[1] + 10, (n.label || n.id) + "\n(" + ("BO") + ")"));       
+        r.rect(n.point[0]-width/2, n.point[1]-13, width, 44).attr({"fill": "#000", r : "14px", "stroke" : "#ccc", "stroke-width" : "2px" })).push(
+        r.text(n.point[0], n.point[1] + 10, n.label).attr( {"stroke": "#fff", "font-size": 14, "font-family": "Arial, Helvetica, sans-serif" }));       
         return set;
     };
     
@@ -51,6 +52,16 @@ window.onload = function() {
         set.push( r.image("img/sort_asc.png", 10, 10, 80, 80));
         return set;
     };
+    
+    // rendu d'un noeud
+    var render5 = function(r, n) {
+        var set = r.set();       
+        set.push(
+        r.rect(n.point[0]-30, n.point[1]-13, n.label.length*10, 44).
+        	attr({"fill": "#56f", r : "12px", "stroke-width" : n.distance == 0 ? "3px" : "1px" })).push(
+        r.text(n.point[0], n.point[1] + 10, n.label));       
+        return set;
+    };
       
        // notre Graphe
     var g = new Graph();
@@ -63,10 +74,17 @@ window.onload = function() {
     	alert('Vous avez cliquer sur ' + this.id); 
      });
     
-    g.addNode("double-click", { label : "double-click" , render:render2} );
+    
+    g.addNode("hello", { label : "hello" , render:render2} );
+    g.addNode("double-click", { label : "il faut se faire une raison" , render:render2} );
+    g.addNode("gus", { label : "coucou tout le monde je suis le roi du monde" , render:render2} );
     
     
-    g.addNode("gus", { label : "Bonjour je suis content etre ici et je pense que ca va aller" , render:render2} );
+    g.addEdge("hello", "double-click");
+    g.addEdge("hello", "gus");
+    g.addEdge("gus", "double-click");
+     
+    
     
     $("#double-click").live('dblclick', function() {
     	alert('Vous avez double-cliquer sur ' + this.id); 
