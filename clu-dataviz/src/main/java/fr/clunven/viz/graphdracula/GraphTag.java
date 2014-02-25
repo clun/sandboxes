@@ -1,11 +1,16 @@
 package fr.clunven.viz.graphdracula;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import fr.clunven.domain.graph.Edge;
 import fr.clunven.domain.graph.Graph;
 import fr.clunven.domain.graph.Vertex;
 
@@ -22,6 +27,9 @@ public class GraphTag extends TagSupport {
 	/** Default decorator. */
 	private static final GraphDecorator<?, ?> DEFAULT_DECORATOR = new DefaultGraphDecorator();
 	
+	/** logger */
+	private static Logger LOGGER = LoggerFactory.getLogger(GraphTag.class);
+	
 	/** width */
 	private String width = "$(document).width() - 20";
 	
@@ -29,7 +37,7 @@ public class GraphTag extends TagSupport {
 	private String height = "$(document).height() - 20";
 	
 	/** Target DIV for this TAG. */
-	private String target = "";
+	private String divId = "";
 	
 	/** Name of Graph Object contain in request. */
 	private String paramName = "";
@@ -37,38 +45,68 @@ public class GraphTag extends TagSupport {
 	/** Decorator. */
 	private String decorator = "";
 	
+	
 	/** {@inheritDoc} */
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public int doAfterBody() throws JspException {
+	public int doStartTag() throws JspException {
 		try {
+			LOGGER.debug("Initializing GRAPH");
 			Graph myGraph = (Graph<?, ?>) pageContext.findAttribute(paramName);
+			
+			if (myGraph == null) {
+				myGraph = new Graph<String, Integer>();
+				myGraph.addEdge(new Edge<Integer>("A", "B"));
+				myGraph.addEdge(new Edge<Integer>("A", "C"));
+				myGraph.addEdge(new Edge<Integer>("A", "D"));
+				myGraph.addEdge(new Edge<Integer>("C", "E"));
+				myGraph.addEdge(new Edge<Integer>("D", "E"));
+				myGraph.buildNodesFromEdges();
+			}
 			if (myGraph != null) {
-				GraphDecorator<?,?> graphDecorator = this.getGraphDecorator();
 				StringBuilder mainSB = new StringBuilder("<script>\n");
 				mainSB.append("var redraw;\n");
 				mainSB.append("window.onload = function() {\n");
 				mainSB.append("  var width  = " + width  + ";\n");
 				mainSB.append("  var height = " + height + ";\n");
 				mainSB.append("  var g        = new Graph();\n");
+				
 				// Here Populating GRAPH
+				GraphDecorator<?,?> gd = this.getGraphDecorator();
+				
+				mainSB.append("var default = " + getVertexRenderFunction(gd.getVertexStyle(null)) + ";\n");
+				
 				Map<String, Vertex<?>> vertices = myGraph.getVertices();
 				for (String vKey : vertices.keySet()) {
 					Vertex v = vertices.get(vKey);
+					mainSB.append("   g.addNode(\"" + v.getLabel() + "\", { label : \"" );
+					mainSB.append(v.getLabel() + "\"");
+					//mainSB.append(", render: " + getVertexRenderFunction(gd.getVertexStyle(v)));
+					mainSB.append(", render:default ");
+					mainSB.append("} );\n");;
 				}
 				
+				List <Edge> edges = myGraph.getEdges();
+				for (Edge edge : edges) {
+					mainSB.append("   g.addEdge(\"" + edge.getHead() + "\", \"" + edge.getTail() + "\");\n");
+				}
 				
 				mainSB.append("  var layouter = new Graph.Layout.Spring(g);\n");
-				mainSB.append("  var renderer = new Graph.Renderer.Raphael('" + target + "', g, width, height);\n\n");
+				mainSB.append("  var renderer = new Graph.Renderer.Raphael('" + divId + "', g, width, height);\n\n");
 				mainSB.append("  redraw = function() {\n");
 				mainSB.append("     layouter.layout();\n");
 				mainSB.append("     renderer.draw();\n");
 				mainSB.append("  };\n");
 				mainSB.append("};\n");
 				mainSB.append("</script>\n");
-			} else {
-				pageContext.getOut().println("No attribute '" + paramName + "' found within page,session,request,application scope(s)....");
-			}
+				mainSB.append("<div id=\"" + divId + "\"></div>\n");
+				LOGGER.debug(mainSB.toString());
+				
+				pageContext.getOut().println(mainSB.toString());
+			
+			}// else {
+			//	pageContext.getOut().println("No attribute '" + paramName + "' found within page,session,request,application scope(s)....");
+			//}
 		} catch (IOException ioe) {
 			throw new JspException("An error occured when rendering GRAPH : ", ioe);
 		}
@@ -83,7 +121,7 @@ public class GraphTag extends TagSupport {
 	 * @return
 	 * 		style for Vertex
 	 */
-	private String getRenderFunction(VertexStyle vs) {
+	private String getVertexRenderFunction(VertexStyle vs) {
 		StringBuilder sb = new StringBuilder("function(r, n) {\n");
 		// compute width from text and et a minimum of 60
 	    sb.append("var width = Math.max(n.label.length * 6 * 14/12, 60);\n");
@@ -97,9 +135,9 @@ public class GraphTag extends TagSupport {
 	    sb.append("})).push(r.text(n.point[0], n.point[1] + 10, n.label).attr( {");
 	    sb.append("\"stroke\": \"" + vs.getFontColor() + "\",");
 	    sb.append("\"font-size\": " + vs.getFontSize() + ",");
-	    sb.append("\"font-family\": \"" + vs.getFontFamily() + "\" }));");       
-	    sb.append("return set;");
-	    sb.append("};");
+	    sb.append("\"font-family\": \"" + vs.getFontFamily() + "\" }));\n");       
+	    sb.append("return set;\n");
+	    sb.append("}");
 	    return sb.toString();
 	}
 	
@@ -129,20 +167,6 @@ public class GraphTag extends TagSupport {
 		} else {
 			return DEFAULT_DECORATOR;
 		}
-	}
-	
-	/**
-	 * Allow to declare a node within graph.
-	 * @param nodeName
-	 * 		target node
-	 * @return
-	 * 		string for this node
-	 */
-	private String addNode(String nodeName) {
-		StringBuilder sb = new StringBuilder("g.addNode(\"");
-		sb.append(nodeName);
-		sb.append("\")");
-		return sb.toString();
 	}
 
 	/**
@@ -220,22 +244,25 @@ public class GraphTag extends TagSupport {
 	public void setDecorator(String decorator) {
 		this.decorator = decorator;
 	}
+
 	/**
-	 * Getter accessor for attribute 'target'.
+	 * Getter accessor for attribute 'divId'.
 	 *
 	 * @return
-	 *       current value of 'target'
+	 *       current value of 'divId'
 	 */
-	public String getTarget() {
-		return target;
+	public String getDivId() {
+		return divId;
 	}
+
 	/**
-	 * Setter accessor for attribute 'target'.
-	 * @param target
-	 * 		new value for 'target '
+	 * Setter accessor for attribute 'divId'.
+	 * @param divId
+	 * 		new value for 'divId '
 	 */
-	public void setTarget(String target) {
-		this.target = target;
+	public void setDivId(String divId) {
+		this.divId = divId;
 	}
+	
 
 }

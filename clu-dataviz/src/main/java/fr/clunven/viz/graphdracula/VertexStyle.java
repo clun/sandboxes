@@ -13,7 +13,6 @@ public class VertexStyle extends AbstractStyle {
 	private String ondblClick = null;
 	
 	private String tooltipText = null;
-
 	
 	/**
 	 * Getter accessor for attribute 'tooltipText'.

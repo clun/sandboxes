@@ -31,8 +31,38 @@ public class Graph < N, E > {
 	 * @param edges
 	 * 		edges
 	 */
+	public Graph() {
+	}
+	
+	/**
+	 * Constructor for Graph.
+	 *
+	 * @param edges
+	 * 		edges
+	 */
 	public Graph(List < Edge < E > > edges) {
 		this.edges = edges;
+	}
+	
+	/**
+	 * Convenience method to add vertex.
+	 * 
+	 * @param v
+	 * 	target vertex
+	 */
+	public void addVertex(Vertex<N> v) {
+		vertices.put(v.getLabel(), v);
+	}
+	
+	/**
+	 * Convenience method to add edge.
+	 * 
+	 * @param v
+	 * 	target vertex
+	 */
+	
+	public void addEdge(Edge<E> edge) {
+		edges.add(edge);
 	}
 	
 	/**

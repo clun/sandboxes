@@ -53,6 +53,8 @@ window.onload = function() {
         return set;
     };
     
+    var render6 = function(r, n) { return  r.set().push( r.image("img/sort_asc.png", 10, 10, 80, 80)); };
+    
     // rendu d'un noeud
     var render5 = function(r, n) {
         var set = r.set();       
@@ -76,6 +78,8 @@ window.onload = function() {
     
     
     g.addNode("hello", { label : "hello" , render:render2} );
+    g.addNode("aaa", { label : "aa" , render: function(r, n) { return r.set().push( r.image("img/sort_asc.png", 10, 10, 80, 80)); }} );
+    
     g.addNode("double-click", { label : "il faut se faire une raison" , render:render2} );
     g.addNode("gus", { label : "coucou tout le monde je suis le roi du monde" , render:render2} );
     

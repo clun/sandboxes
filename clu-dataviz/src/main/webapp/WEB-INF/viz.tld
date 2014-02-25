@@ -8,25 +8,42 @@
     <description>Library of tag to realize rendering of a GRAPH</description>
   	<display-name>TagLib Charts</display-name>
     <tlib-version>1.0</tlib-version>
-    <short-name>tlib-charts</short-name>
-    <uri>http://www.clunven.fr/charts</uri>
+    <short-name>tlib-viz</short-name>
+    <uri>http://www.clunven.fr/viz</uri>
   
-	<!-- Check Feature status -->
+	<!-- Generate a graph -->
 	<tag>
+	 <name>graph</name>
 	 <description>Display a graphdracula graph</description>
-	 <name>graphdracula</name>
-	 <tag-class>fr.clunven.viz.taglib.GraphDraculaTagRender</tag-class>
+	 <tag-class>fr.clunven.viz.graphdracula.GraphTag</tag-class>
 	 <body-content>JSP</body-content> 
   	 <attribute>
+  	 	<name>width</name>
   	 	<description>width of the graph</description>
-   		<name>width</name>
    		<required>false</required>
    		<rtexprvalue>true</rtexprvalue>
   	 </attribute>
   	  <attribute>
+  	 	<name>height</name>
   	 	<description>height of the graph</description>
-   		<name>height</name>
    		<required>false</required>
+   		<rtexprvalue>true</rtexprvalue>
+  	 </attribute>
+  	 <attribute>
+  	 	<name>decorator</name>
+  	 	<description>class to render node and edges</description>
+   		<required>false</required>
+   		<rtexprvalue>true</rtexprvalue>
+  	 </attribute>
+  	 <attribute>
+  	 	<name>paramName</name>
+  	 	<description>class to render node and edges</description>
+   		<required>true</required>
+   		<rtexprvalue>true</rtexprvalue>
+  	 </attribute>
+  	 <attribute>
+  	 	<name>divId</name>
+   		<required>true</required>
    		<rtexprvalue>true</rtexprvalue>
   	 </attribute>
 	</tag>
