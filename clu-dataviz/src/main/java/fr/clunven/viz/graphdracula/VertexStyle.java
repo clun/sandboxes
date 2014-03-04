@@ -1,12 +1,16 @@
 package fr.clunven.viz.graphdracula;
 
-public class VertexStyle extends AbstractStyle {
+public class VertexStyle {
 
+	private DisplayFont font = new DisplayFont();
+	
 	private int borderWidth = 2;
 	
 	private String borderColor = "#000";
 	
 	private String fillColor = "#fff";
+	
+	/** ACTIONS **/ 
 	
 	private String onclick = null;
 	
@@ -126,6 +130,25 @@ public class VertexStyle extends AbstractStyle {
 	 */
 	public void setOndblClick(String ondblClick) {
 		this.ondblClick = ondblClick;
+	}
+
+	/**
+	 * Getter accessor for attribute 'font'.
+	 *
+	 * @return
+	 *       current value of 'font'
+	 */
+	public DisplayFont getFont() {
+		return font;
+	}
+
+	/**
+	 * Setter accessor for attribute 'font'.
+	 * @param font
+	 * 		new value for 'font '
+	 */
+	public void setFont(DisplayFont font) {
+		this.font = font;
 	}
 	
 }

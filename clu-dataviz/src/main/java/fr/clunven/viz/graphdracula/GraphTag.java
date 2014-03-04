@@ -45,6 +45,11 @@ public class GraphTag extends TagSupport {
 	/** Decorator. */
 	private String decorator = "";
 	
+	/** Style of div */
+	private String cssStyle = "";
+	
+	/** Style of dev. */
+	private String cssClass = "";
 	
 	/** {@inheritDoc} */
 	@Override
@@ -68,22 +73,22 @@ public class GraphTag extends TagSupport {
 				mainSB.append("var redraw;\n");
 				mainSB.append("window.onload = function() {\n");
 				mainSB.append("  var width  = " + width  + ";\n");
-				mainSB.append("  var height = " + height + ";\n");
-				mainSB.append("  var g        = new Graph();\n");
+				mainSB.append("  var height = " + height + ";\n\n");
 				
 				// Here Populating GRAPH
 				GraphDecorator<?,?> gd = this.getGraphDecorator();
 				
-				mainSB.append("var default = " + getVertexRenderFunction(gd.getVertexStyle(null)) + ";\n");
+				mainSB.append("  var fRender = " + getVertexRenderFunction(gd.getVertexStyle(null)) + ";\n\n");
 				
+				mainSB.append("  var g = new Graph();\n");
 				Map<String, Vertex<?>> vertices = myGraph.getVertices();
 				for (String vKey : vertices.keySet()) {
 					Vertex v = vertices.get(vKey);
 					mainSB.append("   g.addNode(\"" + v.getLabel() + "\", { label : \"" );
 					mainSB.append(v.getLabel() + "\"");
 					//mainSB.append(", render: " + getVertexRenderFunction(gd.getVertexStyle(v)));
-					mainSB.append(", render:default ");
-					mainSB.append("} );\n");;
+					mainSB.append(", render:fRender ");
+					mainSB.append("} );\n");
 				}
 				
 				List <Edge> edges = myGraph.getEdges();
@@ -99,7 +104,19 @@ public class GraphTag extends TagSupport {
 				mainSB.append("  };\n");
 				mainSB.append("};\n");
 				mainSB.append("</script>\n");
-				mainSB.append("<div id=\"" + divId + "\"></div>\n");
+				mainSB.append("<div id=\"" + divId + "\"");
+				mainSB.append(" style=\"");
+				mainSB.append("width:" + width + "px;");
+				mainSB.append("height:" + height + "px;");
+				if (!"".equals(cssStyle)) {
+					mainSB.append(cssStyle);
+				}
+				mainSB.append("\"");
+				if (!"".equals(cssClass)) {
+					mainSB.append(" class=\"" + cssClass + "\"");
+				}
+				
+			 	mainSB.append("></div>\n");
 				LOGGER.debug(mainSB.toString());
 				
 				pageContext.getOut().println(mainSB.toString());
@@ -124,20 +141,18 @@ public class GraphTag extends TagSupport {
 	private String getVertexRenderFunction(VertexStyle vs) {
 		StringBuilder sb = new StringBuilder("function(r, n) {\n");
 		// compute width from text and et a minimum of 60
-	    sb.append("var width = Math.max(n.label.length * 6 * 14/12, 60);\n");
-	    sb.append("var set = r.set();\n");
-	    sb.append("	   set.push(\n");
-	    sb.append("r.rect(n.point[0]-width/2, n.point[1]-13, width, 44).attr({\n");
-	    sb.append("\"fill\": \"" + vs.getFillColor() + "\",\n");
-	    sb.append("r : \"" + vs.getFontSize() + "px\",\n");
+	    sb.append("    var fwidth = Math.max(n.label.length * 6 * 14/12, 60);\n");
+	    sb.append("    return r.set().push(\n");
+	    sb.append("      r.rect(n.point[0]-fwidth/2, n.point[1]-13, fwidth, 44).attr({");
+	    sb.append("\"fill\": \"" + vs.getFillColor() + "\",");
+	    sb.append("r : \"" + vs.getFont().getSize() + "px\",");
 	    sb.append("\"stroke\": \"" + vs.getBorderColor() + "\",");
-	    sb.append("\"stroke-width\": \"" + vs.getBorderWidth() + "\"px");
-	    sb.append("})).push(r.text(n.point[0], n.point[1] + 10, n.label).attr( {");
-	    sb.append("\"stroke\": \"" + vs.getFontColor() + "\",");
-	    sb.append("\"font-size\": " + vs.getFontSize() + ",");
-	    sb.append("\"font-family\": \"" + vs.getFontFamily() + "\" }));\n");       
-	    sb.append("return set;\n");
-	    sb.append("}");
+	    sb.append("\"stroke-width\": \"" + vs.getBorderWidth() + "px\"");
+	    sb.append("})).push(\n      r.text(n.point[0], n.point[1] + 10, n.label).attr( {");
+	    sb.append("\"stroke\": \"" + vs.getFont().getColor() + "\",");
+	    sb.append("\"font-size\": " + vs.getFont().getSize() + ",");
+	    sb.append("\"font-family\": \"" + vs.getFont().getFamily() + "\" }));\n");
+	    sb.append("  }");
 	    return sb.toString();
 	}
 	
@@ -262,6 +277,48 @@ public class GraphTag extends TagSupport {
 	 */
 	public void setDivId(String divId) {
 		this.divId = divId;
+	}
+
+
+	/**
+	 * Getter accessor for attribute 'cssStyle'.
+	 *
+	 * @return
+	 *       current value of 'cssStyle'
+	 */
+	public String getCssStyle() {
+		return cssStyle;
+	}
+
+
+	/**
+	 * Setter accessor for attribute 'cssStyle'.
+	 * @param cssStyle
+	 * 		new value for 'cssStyle '
+	 */
+	public void setCssStyle(String cssStyle) {
+		this.cssStyle = cssStyle;
+	}
+
+
+	/**
+	 * Getter accessor for attribute 'cssClass'.
+	 *
+	 * @return
+	 *       current value of 'cssClass'
+	 */
+	public String getCssClass() {
+		return cssClass;
+	}
+
+
+	/**
+	 * Setter accessor for attribute 'cssClass'.
+	 * @param cssClass
+	 * 		new value for 'cssClass '
+	 */
+	public void setCssClass(String cssClass) {
+		this.cssClass = cssClass;
 	}
 	
 

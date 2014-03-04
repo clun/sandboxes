@@ -46,6 +46,18 @@
    		<required>true</required>
    		<rtexprvalue>true</rtexprvalue>
   	 </attribute>
+  	  <attribute>
+  	 	<name>cssStyle</name>
+  	 	<description>css style</description>
+   		<required>false</required>
+   		<rtexprvalue>true</rtexprvalue>
+  	 </attribute>
+  	 <attribute>
+  	 	<name>cssClass</name>
+  	 	<description>css style</description>
+   		<required>false</required>
+   		<rtexprvalue>true</rtexprvalue>
+  	 </attribute>
 	</tag>
 
 </taglib>

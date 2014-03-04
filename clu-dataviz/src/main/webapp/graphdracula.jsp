@@ -126,7 +126,7 @@ window.onload = function() {
     g.addEdge("1", "cherry", { directed : true } );
     
     /* customize the colors of that edge */
-    g.addEdge("id35", "apple", { stroke : "#bfa" , fill : "#56f", label : "Meat-to-Apple" });
+    g.addEdge("id35", "apple", { stroke : "#800" , fill : "#000", label : "Meat-to-Apple" });
     
     /* add an unknown node implicitly by adding an edge */
     g.addEdge("strawberry", "apple");

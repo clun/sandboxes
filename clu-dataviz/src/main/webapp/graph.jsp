@@ -8,9 +8,14 @@
 </head>
 <body>
 
-<p>Et voila</p>
+<p>Example de Graph</p>
 
-<viz:graph divId="mySampleGraph" paramName="graph" ></viz:graph>
+<viz:graph divId="mySampleGraph" 
+	paramName="graph" 
+	width="500" 
+	height="300"
+	cssStyle="border:1px solid red">
+</viz:graph>
 
 </body>
 
