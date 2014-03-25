@@ -1,5 +1,13 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
+<html>
+  
+  <head>
+    <meta charset="utf-8">
+    title>Sequences sunburst</title>
+     <script src="js/d3js/d3.v3.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600">
+    <link rel="stylesheet" type="text/css" href="css/d3js-sequences.css"/>
+  
 <style>
 
 .node {
@@ -23,8 +31,9 @@
 }
 
 </style>
+</head>
+
 <body>
-<script src="../../js/d3.v3.min.js"></script>
 <script>
 
 var margin = {top: 20, right: 120, bottom: 20, left: 120},
@@ -47,7 +56,7 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.json("http://localhost:8080/viz/ws/graph/", function(error, flare) {
+d3.json("http://localhost:8080/viz/ws/d3js/deals", function(error, flare) {
   root = flare;
   root.x0 = height / 2;
   root.y0 = 0;

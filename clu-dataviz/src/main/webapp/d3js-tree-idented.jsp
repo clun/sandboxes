@@ -23,7 +23,7 @@ path.link {
 
 </style>
 <body>
-<script src="../../js/d3.v3.min.js"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
 <script>
 
 var margin = {top: 30, right: 20, bottom: 30, left: 20},
@@ -36,7 +36,7 @@ var i = 0,
     root;
 
 var tree = d3.layout.tree()
-    .size([0, 100]);
+    .nodeSize([0, 20]);
 
 var diagonal = d3.svg.diagonal()
     .projection(function(d) { return [d.y, d.x]; });
@@ -46,7 +46,8 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-d3.json("tree.json", function(error, flare) {
+
+d3.json("http://localhost:8080/viz/ws/d3js/octo", function(error, flare) {
   flare.x0 = 0;
   flare.y0 = 0;
   update(root = flare);
@@ -59,10 +60,12 @@ function update(source) {
 
   var height = Math.max(500, nodes.length * barHeight + margin.top + margin.bottom);
 
-  d3.select("svg")
+  d3.select("svg").transition()
+      .duration(duration)
       .attr("height", height);
 
-  d3.select(self.frameElement)
+  d3.select(self.frameElement).transition()
+      .duration(duration)
       .style("height", height + "px");
 
   // Compute the "layout".

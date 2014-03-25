@@ -20,7 +20,7 @@
 
 </style>
 <body>
-<script src="../../js/d3.v3.min.js"></script>
+  <script src="js/d3js/d3.v3.min.js"></script>
 <script>
 
 var diameter = 960;
@@ -38,7 +38,7 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
-d3.json("tree.json", function(error, root) {
+d3.json("http://localhost:8080/viz/ws/d3js/octo", function(error, root) {
   var nodes = tree.nodes(root),
       links = tree.links(nodes);
 
@@ -65,4 +65,5 @@ d3.json("tree.json", function(error, root) {
 });
 
 d3.select(self.frameElement).style("height", diameter - 150 + "px");
+
 </script>

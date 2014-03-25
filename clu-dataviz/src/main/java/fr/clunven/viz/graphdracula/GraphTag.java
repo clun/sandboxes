@@ -24,9 +24,6 @@ public class GraphTag extends TagSupport {
 	/** serial. */
 	private static final long serialVersionUID = -1339512982027687771L;
 	
-	/** Default decorator. */
-	private static final GraphDecorator<?, ?> DEFAULT_DECORATOR = new DefaultGraphDecorator();
-	
 	/** logger */
 	private static Logger LOGGER = LoggerFactory.getLogger(GraphTag.class);
 	
@@ -57,6 +54,7 @@ public class GraphTag extends TagSupport {
 	public int doStartTag() throws JspException {
 		try {
 			LOGGER.debug("Initializing GRAPH");
+			
 			Graph myGraph = (Graph<?, ?>) pageContext.findAttribute(paramName);
 			
 			if (myGraph == null) {
@@ -68,27 +66,44 @@ public class GraphTag extends TagSupport {
 				myGraph.addEdge(new Edge<Integer>("D", "E"));
 				myGraph.buildNodesFromEdges();
 			}
+			
 			if (myGraph != null) {
+				
 				StringBuilder mainSB = new StringBuilder("<script>\n");
 				mainSB.append("var redraw;\n");
 				mainSB.append("window.onload = function() {\n");
 				mainSB.append("  var width  = " + width  + ";\n");
 				mainSB.append("  var height = " + height + ";\n\n");
 				
-				// Here Populating GRAPH
-				GraphDecorator<?,?> gd = this.getGraphDecorator();
+				GraphDecorator deco = null;
+				if (!"".equals(decorator)) {
+					Class decoClazz = Class.forName(decorator);
+					deco = (GraphDecorator) decoClazz.newInstance();
+				}
 				
-				mainSB.append("  var fRender = " + getVertexRenderFunction(gd.getVertexStyle(null)) + ";\n\n");
+				if (deco == null) {
+					mainSB.append("  var defaultRender = " + getVertexRenderFunction(new VertexStyle()) + ";\n\n");
+				} else {
+					mainSB.append("  var defaultRender = " + getVertexRenderFunction(deco.getDefaultVertexStyle()) + ";\n\n");
+				}
 				
 				mainSB.append("  var g = new Graph();\n");
+				
+				if (deco != null && deco.isDirected()) {
+					mainSB.append(" g.edgeFactory.template.style.directed = true;\n");
+				}
 				Map<String, Vertex<?>> vertices = myGraph.getVertices();
 				for (String vKey : vertices.keySet()) {
 					Vertex v = vertices.get(vKey);
 					mainSB.append("   g.addNode(\"" + v.getLabel() + "\", { label : \"" );
 					mainSB.append(v.getLabel() + "\"");
-					//mainSB.append(", render: " + getVertexRenderFunction(gd.getVertexStyle(v)));
-					mainSB.append(", render:fRender ");
-					mainSB.append("} );\n");
+					if (deco == null) {
+						mainSB.append(", render:defaultRender ");
+						mainSB.append("} );\n");
+					} else {
+						mainSB.append(", render:" + getVertexRenderFunction(deco.getVertexStyle(v)).replaceAll("\\n", ""));
+						mainSB.append("} );\n");
+					}
 				}
 				
 				List <Edge> edges = myGraph.getEdges();
@@ -117,7 +132,6 @@ public class GraphTag extends TagSupport {
 				}
 				
 			 	mainSB.append("></div>\n");
-				LOGGER.debug(mainSB.toString());
 				
 				pageContext.getOut().println(mainSB.toString());
 			
@@ -126,6 +140,12 @@ public class GraphTag extends TagSupport {
 			//}
 		} catch (IOException ioe) {
 			throw new JspException("An error occured when rendering GRAPH : ", ioe);
+		} catch (ClassNotFoundException e) {
+			throw new JspException("Cannot find class for decorator '" + decorator + "', please check classpath.", e);
+		} catch (InstantiationException e) {
+			throw new JspException("Cannot instanciate decorator '" + decorator + "', please check existence of default constructor.", e);
+		} catch (IllegalAccessException e) {
+			throw new JspException("Cannot use decorator '" + decorator + "', please check classpath.", e);
 		}
 		return SKIP_BODY;
 	}
@@ -154,34 +174,6 @@ public class GraphTag extends TagSupport {
 	    sb.append("\"font-family\": \"" + vs.getFont().getFamily() + "\" }));\n");
 	    sb.append("  }");
 	    return sb.toString();
-	}
-	
-	
-	/**
-	 * Retrieves {@link GraphDecorator} from attributes values.
-	 *  
-	 * @return
-	 * 		target graph decorator
-	 * @throws IOException
-	 * 		error during instanciation
-	 */
-	private GraphDecorator<?,?> getGraphDecorator() throws IOException {
-		if (!"".equals(decorator)) {
-			try {
-				return (GraphDecorator<?, ?>) Class.forName(decorator).newInstance();
-			} catch (ClassNotFoundException e) {
-				pageContext.getOut().println("'" + decorator + "' is not a valid decorator className : Class Not Found" + e.getMessage());
-				throw new IOException(e);
-			} catch (InstantiationException e) {
-				pageContext.getOut().println("'" + decorator + "' is not a valid decorator className : Cannot instanciate (public constructor?)" + e.getMessage());
-				throw new IOException(e);
-			} catch (IllegalAccessException e) {
-				pageContext.getOut().println("'" + decorator + "' is not a valid decorator className :" + e.getMessage());
-				throw new IOException(e);
-			}
-		} else {
-			return DEFAULT_DECORATOR;
-		}
 	}
 
 	/**

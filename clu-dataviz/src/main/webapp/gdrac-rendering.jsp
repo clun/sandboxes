@@ -17,7 +17,6 @@ window.onload = function() {
   var height = $(document).height() - 200;
   var g        = new Graph();
 
- 
 
 //rendu d'un noeud
 var render2 = function(r, n) {
@@ -29,15 +28,24 @@ var render2 = function(r, n) {
     return set;
 };
 
+var defaultEgdeProps = { directed: true, label : "Label",
+	    "label-style" : {
+	      "font-size": 20
+	    }
+	  };
+	  
 
+   // All Edge become true
+   g.edgeFactory.template.style.directed = true;
+	
    g.addNode("A", { label : "A", render:render2 } );
    g.addNode("B", { label : "B", render:render2 } );
    g.addNode("C", { label : "C", render:render2 } );
    g.addNode("D", { label : "D", render:render2 } );
-   g.addNode("E", { label : "E", render:render2 } );
+   g.addNode("E", { label : "E", render:function(r, n) {var fwidth = Math.max(n.label.length * 6 * 14/12, 60);var set = r.set();set.push(r.rect(n.point[0]-fwidth/2, n.point[1]-13, fwidth, 44).attr({"fill": "#800", r : "14px", "stroke" : "#888", "stroke-width" : "2px" })).push(r.text(n.point[0], n.point[1] + 10, n.label).attr( {"stroke": "#fff", "font-size": 14, "font-family": "Arial, Helvetica, sans-serif" }));return set;} } );
    g.addNode("strawberry");
-   g.addEdge("A", "B");
-   g.addEdge("A", "C");
+   g.addEdge("A", "B", { directed : true});
+   g.addEdge("A", "C", defaultEgdeProps);
    g.addEdge("A", "D");
    g.addEdge("C", "E");
    g.addEdge("D", "E");

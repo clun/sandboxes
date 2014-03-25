@@ -1,15 +1,10 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <style>
-
-path {
-  stroke: #fff;
-  fill-rule: evenodd;
-}
-
+ path { stroke: #fff; fill-rule: evenodd; }
 </style>
 <body>
-<script src="../../js/d3.v3.min.js"></script>
+<script src="js/d3js/d3.v3.min.js"></script>
 <script>
 
 var width = 960,
@@ -39,7 +34,7 @@ var arc = d3.svg.arc()
     .innerRadius(function(d) { return Math.max(0, y(d.y)); })
     .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
 
-d3.json("http://localhost:8080/viz/ws/graph/", function(error, root) {
+d3.json("http://localhost:8080/viz/ws/d3js/deals/", function(error, root) {
   var path = svg.selectAll("path")
       .data(partition.nodes(root))
     .enter().append("path")

@@ -10,12 +10,15 @@
 
 <p>Example de Graph</p>
 
-<viz:graph divId="mySampleGraph" 
+<p/> New Example with custom Decorator 1
+<viz:graph divId="newGraph" 
 	paramName="graph" 
 	width="500" 
 	height="300"
-	cssStyle="border:1px solid red">
+	cssStyle="border:1px solid blue"
+	decorator="fr.clunven.viz.samples.CustomGraphDecorator">
 </viz:graph>
+
 
 </body>
 
