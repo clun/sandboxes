@@ -104,3 +104,4 @@ Raphael.fn.connection = function (obj1, obj2, style) {
     return edge;
 };
 //Raphael.prototype.set.prototype.dodo=function(){console.log("works");};
+
