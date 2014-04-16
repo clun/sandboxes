@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.clunven.viz.graphdracula.VertexStyle;
+
 /**
  * Proposal for a Node in a Graph.
  *
@@ -23,8 +25,17 @@ public class Vertex < DATA > implements Serializable {
 	/** Embedded Data for this Graph. */
 	private transient DATA data = null;
 	
+    /** Default Style. */
+    private VertexStyle style = new VertexStyle();
+
 	/** List of adjacent nodes. */
 	private List < String > adjacentVertices = new ArrayList< String >();
+
+    /** Allow fixed position. */
+    private int coordX = -1;
+
+    /** Allow fixed position. */
+    private int coordY = -1;
 
 	/**
 	 * Constructor with empty data.
@@ -46,6 +57,21 @@ public class Vertex < DATA > implements Serializable {
 		this(label);
 		this.data = data;
 	}
+
+    /**
+     * Constructor with both label and DATA.
+     * 
+     * @param label
+     *            current vertex label
+     * @param data
+     *            embedded data
+     */
+    public Vertex(String label, DATA data, int x, int y) {
+        this(label);
+        this.data = data;
+        this.coordX = x;
+        this.coordY = y;
+    }
 
 	/**
 	 * Getter accessor for attribute 'label'.
@@ -103,5 +129,62 @@ public class Vertex < DATA > implements Serializable {
 	public void setAdjacentVertices(List<String> adjacentVertices) {
 		this.adjacentVertices = adjacentVertices;
 	}
+
+    /**
+     * Getter accessor for attribute 'style'.
+     * 
+     * @return current value of 'style'
+     */
+    public VertexStyle getStyle() {
+        return style;
+    }
+
+    /**
+     * Setter accessor for attribute 'style'.
+     * 
+     * @param style
+     *            new value for 'style '
+     */
+    public void setStyle(VertexStyle style) {
+        this.style = style;
+    }
+
+    /**
+     * Getter accessor for attribute 'coordX'.
+     * 
+     * @return current value of 'coordX'
+     */
+    public int getCoordX() {
+        return coordX;
+    }
+
+    /**
+     * Setter accessor for attribute 'coordX'.
+     * 
+     * @param coordX
+     *            new value for 'coordX '
+     */
+    public void setCoordX(int coordX) {
+        this.coordX = coordX;
+    }
+
+    /**
+     * Getter accessor for attribute 'coordY'.
+     * 
+     * @return current value of 'coordY'
+     */
+    public int getCoordY() {
+        return coordY;
+    }
+
+    /**
+     * Setter accessor for attribute 'coordY'.
+     * 
+     * @param coordY
+     *            new value for 'coordY '
+     */
+    public void setCoordY(int coordY) {
+        this.coordY = coordY;
+    }
 
 }

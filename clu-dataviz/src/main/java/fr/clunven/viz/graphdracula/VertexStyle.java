@@ -1,41 +1,29 @@
 package fr.clunven.viz.graphdracula;
 
+/**
+ * Customization of GraphNode
+ * 
+ * @author <a href="mailto:cedrick.lunven@gmail.com">Cedrick LUNVEN</a>
+ */
 public class VertexStyle {
 
+    /** Font. */
 	private DisplayFont font = new DisplayFont();
 	
+    /** Border width. */
 	private int borderWidth = 2;
 	
+    /** Border color. */
 	private String borderColor = "#000";
 	
+    /** Draw color. */
 	private String fillColor = "#fff";
 	
-	/** ACTIONS **/ 
+    /** Action on CLIC **/
+    private String clicAction = null;
 	
-	private String onclick = null;
-	
-	private String ondblClick = null;
-	
-	private String tooltipText = null;
-	
-	/**
-	 * Getter accessor for attribute 'tooltipText'.
-	 *
-	 * @return
-	 *       current value of 'tooltipText'
-	 */
-	public String getTooltipText() {
-		return tooltipText;
-	}
-
-	/**
-	 * Setter accessor for attribute 'tooltipText'.
-	 * @param tooltipText
-	 * 		new value for 'tooltipText '
-	 */
-	public void setTooltipText(String tooltipText) {
-		this.tooltipText = tooltipText;
-	}
+    /** I enabled, will propose clic action. */
+    private boolean cliquable = false;
 
 	/**
 	 * Getter accessor for attribute 'borderWidth'.
@@ -95,44 +83,6 @@ public class VertexStyle {
 	}
 
 	/**
-	 * Getter accessor for attribute 'onclick'.
-	 *
-	 * @return
-	 *       current value of 'onclick'
-	 */
-	public String getOnclick() {
-		return onclick;
-	}
-
-	/**
-	 * Setter accessor for attribute 'onclick'.
-	 * @param onclick
-	 * 		new value for 'onclick '
-	 */
-	public void setOnclick(String onclick) {
-		this.onclick = onclick;
-	}
-
-	/**
-	 * Getter accessor for attribute 'ondblClick'.
-	 *
-	 * @return
-	 *       current value of 'ondblClick'
-	 */
-	public String getOndblClick() {
-		return ondblClick;
-	}
-
-	/**
-	 * Setter accessor for attribute 'ondblClick'.
-	 * @param ondblClick
-	 * 		new value for 'ondblClick '
-	 */
-	public void setOndblClick(String ondblClick) {
-		this.ondblClick = ondblClick;
-	}
-
-	/**
 	 * Getter accessor for attribute 'font'.
 	 *
 	 * @return
@@ -150,5 +100,43 @@ public class VertexStyle {
 	public void setFont(DisplayFont font) {
 		this.font = font;
 	}
-	
+
+    /**
+     * Getter accessor for attribute 'cliquable'.
+     * 
+     * @return current value of 'cliquable'
+     */
+    public boolean isCliquable() {
+        return cliquable;
+    }
+
+    /**
+     * Setter accessor for attribute 'cliquable'.
+     * 
+     * @param cliquable
+     *            new value for 'cliquable '
+     */
+    public void setCliquable(boolean cliquable) {
+        this.cliquable = cliquable;
+    }
+
+    /**
+     * Getter accessor for attribute 'clicAction'.
+     * 
+     * @return current value of 'clicAction'
+     */
+    public String getClicAction() {
+        return clicAction;
+    }
+
+    /**
+     * Setter accessor for attribute 'clicAction'.
+     * 
+     * @param clicAction
+     *            new value for 'clicAction '
+     */
+    public void setClicAction(String clicAction) {
+        this.clicAction = clicAction;
+    }
+
 }

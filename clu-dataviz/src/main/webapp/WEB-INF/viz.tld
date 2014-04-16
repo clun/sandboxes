@@ -14,31 +14,26 @@
 	<!-- Generate a graph -->
 	<tag>
 	 <name>graph</name>
-	 <description>Display a graphdracula graph</description>
 	 <tag-class>fr.clunven.viz.graphdracula.GraphTag</tag-class>
 	 <body-content>JSP</body-content> 
   	 <attribute>
   	 	<name>width</name>
-  	 	<description>width of the graph</description>
-   		<required>false</required>
+  		<required>false</required>
    		<rtexprvalue>true</rtexprvalue>
   	 </attribute>
   	  <attribute>
   	 	<name>height</name>
-  	 	<description>height of the graph</description>
-   		<required>false</required>
+  		<required>false</required>
    		<rtexprvalue>true</rtexprvalue>
   	 </attribute>
   	 <attribute>
   	 	<name>decorator</name>
-  	 	<description>class to render node and edges</description>
-   		<required>false</required>
+  		<required>false</required>
    		<rtexprvalue>true</rtexprvalue>
   	 </attribute>
   	 <attribute>
   	 	<name>paramName</name>
-  	 	<description>class to render node and edges</description>
-   		<required>true</required>
+  		<required>true</required>
    		<rtexprvalue>true</rtexprvalue>
   	 </attribute>
   	 <attribute>
@@ -48,14 +43,12 @@
   	 </attribute>
   	  <attribute>
   	 	<name>cssStyle</name>
-  	 	<description>css style</description>
-   		<required>false</required>
+  		<required>false</required>
    		<rtexprvalue>true</rtexprvalue>
   	 </attribute>
   	 <attribute>
   	 	<name>cssClass</name>
-  	 	<description>css style</description>
-   		<required>false</required>
+  		<required>false</required>
    		<rtexprvalue>true</rtexprvalue>
   	 </attribute>
 	</tag>

@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import fr.clunven.domain.graph.Edge;
 import fr.clunven.domain.graph.Graph;
 import fr.clunven.domain.graph.Vertex;
+import fr.clunven.viz.web.bam.BAMGraphBuilder;
 
 /**
  * Taglib to produce a Graph using GraphDracula library.
@@ -56,40 +57,28 @@ public class GraphTag extends TagSupport {
 			LOGGER.debug("Initializing GRAPH");
 			
 			Graph myGraph = (Graph<?, ?>) pageContext.findAttribute(paramName);
+            myGraph = BAMGraphBuilder.getGraph();
 			
-			if (myGraph == null) {
-				myGraph = new Graph<String, Integer>();
-				myGraph.addEdge(new Edge<Integer>("A", "B"));
-				myGraph.addEdge(new Edge<Integer>("A", "C"));
-				myGraph.addEdge(new Edge<Integer>("A", "D"));
-				myGraph.addEdge(new Edge<Integer>("C", "E"));
-				myGraph.addEdge(new Edge<Integer>("D", "E"));
-				myGraph.buildNodesFromEdges();
-			}
-			
+            StringBuilder mainSB = new StringBuilder("<script>\n");
+            mainSB.append("var redraw;\n");
+            mainSB.append("window.onload = function() {\n");
+            mainSB.append("  var width  = " + width + ";\n");
+            mainSB.append("  var height = " + height + ";\n\n");
+
 			if (myGraph != null) {
-				
-				StringBuilder mainSB = new StringBuilder("<script>\n");
-				mainSB.append("var redraw;\n");
-				mainSB.append("window.onload = function() {\n");
-				mainSB.append("  var width  = " + width  + ";\n");
-				mainSB.append("  var height = " + height + ";\n\n");
-				
 				GraphDecorator deco = null;
 				if (!"".equals(decorator)) {
 					Class decoClazz = Class.forName(decorator);
 					deco = (GraphDecorator) decoClazz.newInstance();
-				}
-				
-				if (deco == null) {
-					mainSB.append("  var defaultRender = " + getVertexRenderFunction(new VertexStyle()) + ";\n\n");
-				} else {
-					mainSB.append("  var defaultRender = " + getVertexRenderFunction(deco.getDefaultVertexStyle()) + ";\n\n");
-				}
-				
-				mainSB.append("  var g = new Graph();\n");
-				
-				if (deco != null && deco.isDirected()) {
+                    if (deco.getDefaultVertexStyle() != null) {
+                        mainSB.append("  var defaultRender = " + getVertexRenderFunction(deco.getDefaultVertexStyle()) + ";\n\n");
+                    } else {
+                        mainSB.append("  var defaultRender = " + getVertexRenderFunction(new VertexStyle()) + ";\n\n");
+                    }
+                }
+
+                mainSB.append("  var g = new Graph();\n");
+                if (myGraph != null && myGraph.isDirected()) {
 					mainSB.append(" g.edgeFactory.template.style.directed = true;\n");
 				}
 				Map<String, Vertex<?>> vertices = myGraph.getVertices();
@@ -97,6 +86,13 @@ public class GraphTag extends TagSupport {
 					Vertex v = vertices.get(vKey);
 					mainSB.append("   g.addNode(\"" + v.getLabel() + "\", { label : \"" );
 					mainSB.append(v.getLabel() + "\"");
+
+                    // Fixed Position
+                    if (v.getCoordX() > 0 && v.getCoordY() > 0) {
+                        mainSB.append(", x: " + v.getCoordX());
+                        mainSB.append(", y: " + v.getCoordY());
+                    }
+
 					if (deco == null) {
 						mainSB.append(", render:defaultRender ");
 						mainSB.append("} );\n");
@@ -111,7 +107,11 @@ public class GraphTag extends TagSupport {
 					mainSB.append("   g.addEdge(\"" + edge.getHead() + "\", \"" + edge.getTail() + "\");\n");
 				}
 				
-				mainSB.append("  var layouter = new Graph.Layout.Spring(g);\n");
+                // if (fixedLayout) {
+                // mainSB.append("  var layouter = new Graph.Layout.Spring(g);\n");
+                // } else {
+                    mainSB.append("  var layouter = new Graph.Layout.Fixed(g);\n");
+                // }
 				mainSB.append("  var renderer = new Graph.Renderer.Raphael('" + divId + "', g, width, height);\n\n");
 				mainSB.append("  redraw = function() {\n");
 				mainSB.append("     layouter.layout();\n");
@@ -164,7 +164,7 @@ public class GraphTag extends TagSupport {
 	    sb.append("    var fwidth = Math.max(n.label.length * 6 * 14/12, 60);\n");
 	    sb.append("    return r.set().push(\n");
 	    sb.append("      r.rect(n.point[0]-fwidth/2, n.point[1]-13, fwidth, 44).attr({");
-	    sb.append("\"fill\": \"" + vs.getFillColor() + "\",");
+        sb.append("\"fill\": \"" + vs.getFillColor() + "\",\"fill-opacity\":1,");
 	    sb.append("r : \"" + vs.getFont().getSize() + "px\",");
 	    sb.append("\"stroke\": \"" + vs.getBorderColor() + "\",");
 	    sb.append("\"stroke-width\": \"" + vs.getBorderWidth() + "px\"");

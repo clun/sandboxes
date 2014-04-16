@@ -12,16 +12,17 @@ public class DisplayFont implements Serializable {
 	/** serial. */
 	private static final long serialVersionUID = -5240151328286939335L;
 	
+    /** contant. */
 	private static final String FAMILY_ARIAL = "Arial, Helvetica, sans-serif";
 
 	/** Font family. */
 	private String family = FAMILY_ARIAL;
 	
 	/** Font Size */
-	private int size = 10;
+    private int size = 12;
 	
 	/** Font Color */
-	private String color = "#000";
+    private String color = "#ccc";
 	
 	/** if bold */
 	private boolean bold = false;

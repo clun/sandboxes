@@ -9,24 +9,30 @@ import fr.clunven.domain.graph.Vertex;
  * @author <a href="mailto:cedrick.lunven@gmail.com">Cedrick LUNVEN</a>
  */
 public interface GraphDecorator {
+
+    /**
+     * Allow to override the default.
+     * 
+     * @return if not null overrride default
+     */
+    VertexStyle getDefaultVertexStyle();
 	
-	/**
-	 * This default style will be applied if no custom style defined. 
-	 * @return
-	 * 		default Style
-	 */
-	VertexStyle getDefaultVertexStyle();
+    /**
+     * Get vertexStyle from Vextex.
+     * 
+     * @param vertex
+     *            current vertex
+     * @return target style.
+     */
+    VertexStyle getVertexStyle(Vertex<?> vertex);
 	
-	/**
-	 * If set to true all.
-	 *
-	 * @return
-	 * 		tell if graph is directed
-	 */
-	boolean isDirected();
-	
-	VertexStyle getVertexStyle(Vertex<String> vertex);
-	
-	EdgeStyle getEdgeStyle(Edge < String > edge);
+    /**
+     * Sample Edge Style.
+     * 
+     * @param edge
+     *            target edge
+     * @return style
+     */
+    EdgeStyle getEdgeStyle(Edge<?> edge);
 
 }

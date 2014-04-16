@@ -43,11 +43,13 @@
 			<div class="span3">
 				<div class="well sidebar-nav">
 					<ul class="nav nav-list">
-						<li class="nav-header"><i class="icon-signal"></i>Graphdracula</li>
+						
+						<li class="nav-header"><i class="icon-cog"></i>Graphdracula</li>
 						<ul>
-							<li><a href="gdrac-testings.jsp">First Tests</a></li>
-							<li><a href="gdrac-rendering.jsp">Renderer Tests</a></li>
+							
 							<li><a href="gdrac-taglib.jsp">Tag lib</a></li>
+							<li><a href="gdrac-applications.jsp">Bubbles</a></li>
+							<li><a href="gdrac-applications-samples.jsp">Workflow Sample</a></li>
 						</ul>
 						<p>
 						<li class="nav-header"><i class="icon-th-list"></i>D3Js</li>

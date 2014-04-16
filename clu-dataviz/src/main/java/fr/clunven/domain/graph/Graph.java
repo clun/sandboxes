@@ -1,12 +1,11 @@
 package fr.clunven.domain.graph;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+
+import fr.clunven.viz.graphdracula.VertexStyle;
 
 /**
  * Data structure representing a Graphe.
@@ -20,10 +19,11 @@ public class Graph < N, E > {
 	 */
 	private Map < String, Vertex < N > > vertices = new LinkedHashMap<String, Vertex<N>>();
 	
-	/**
-	 * Store edges as list.
-	 */
+	/** Store edges as list. */
 	private List < Edge < E > > edges = new ArrayList < Edge < E > >();
+	
+	/** Force all edges as directed. */
+    private boolean directed = false;
 	
 	/**
 	 * Constructor for Graph.
@@ -34,12 +34,22 @@ public class Graph < N, E > {
 	public Graph() {
 	}
 	
-	/**
-	 * Constructor for Graph.
-	 *
-	 * @param edges
-	 * 		edges
-	 */
+	    /**
+     * Constructor for Graph.
+     * 
+     * @param edges
+     *            edges
+     */
+    public Graph(boolean d) {
+        this.directed = d;
+    }
+
+    /**
+     * Constructor for Graph.
+     * 
+     * @param edges
+     *            edges
+     */
 	public Graph(List < Edge < E > > edges) {
 		this.edges = edges;
 	}
@@ -54,12 +64,23 @@ public class Graph < N, E > {
 		vertices.put(v.getLabel(), v);
 	}
 	
-	/**
-	 * Convenience method to add edge.
-	 * 
-	 * @param v
-	 * 	target vertex
-	 */
+	    /**
+     * Convenience method to add vertex.
+     * 
+     * @param v
+     *            target vertex
+     */
+    public void addVertex(Vertex<N> vn, VertexStyle vs) {
+        vn.setStyle(vs);
+        vertices.put(vn.getLabel(), vn);
+    }
+
+    /**
+     * Convenience method to add edge.
+     * 
+     * @param v
+     *            target vertex
+     */
 	
 	public void addEdge(Edge<E> edge) {
 		edges.add(edge);
@@ -83,7 +104,7 @@ public class Graph < N, E > {
 	 * If build only with edges it will create nodes.
 	 */
 	public void buildNodesFromEdges() {
-		vertices = new LinkedHashMap<String, Vertex<N>>();
+        // vertices = new LinkedHashMap<String, Vertex<N>>();
 		for (Edge<E> edge : edges) {
 			if (!vertices.containsKey(edge.getHead())) {
 				vertices.put(edge.getHead(), new Vertex<N>(edge.getHead()));
@@ -132,4 +153,23 @@ public class Graph < N, E > {
 	public void setEdges(List<Edge<E>> edges) {
 		this.edges = edges;
 	}
+
+    /**
+     * Getter accessor for attribute 'directed'.
+     * 
+     * @return current value of 'directed'
+     */
+    public boolean isDirected() {
+        return directed;
+    }
+
+    /**
+     * Setter accessor for attribute 'directed'.
+     * 
+     * @param directed
+     *            new value for 'directed '
+     */
+    public void setDirected(boolean directed) {
+        this.directed = directed;
+    }
 }

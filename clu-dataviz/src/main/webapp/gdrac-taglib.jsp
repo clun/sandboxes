@@ -16,7 +16,7 @@
 	width="500" 
 	height="300"
 	cssStyle="border:1px solid blue"
-	decorator="fr.clunven.viz.samples.CustomGraphDecorator">
+	decorator="fr.clunven.viz.web.bam.CustomGraphDecorator">
 </viz:graph>
 
 

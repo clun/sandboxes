@@ -1,4 +1,4 @@
-package fr.clunven.viz.samples;
+package fr.clunven.viz.web.bam;
 
 import fr.clunven.domain.graph.Edge;
 import fr.clunven.domain.graph.Vertex;
@@ -6,36 +6,35 @@ import fr.clunven.viz.graphdracula.EdgeStyle;
 import fr.clunven.viz.graphdracula.GraphDecorator;
 import fr.clunven.viz.graphdracula.VertexStyle;
 
+/**
+ * Sample of decorator to override defaut behavior.
+ * 
+ * @author <a href="mailto:cedrick.lunven@gmail.com">Cedrick LUNVEN</a>
+ */
 public class CustomGraphDecorator implements GraphDecorator {
-
-	private VertexStyle defaultVS = null;
 	
+    /** Sample RED. */
 	private VertexStyle redVS = null;
 	
+    /** {@inheritDoc} */
 	@Override
 	public VertexStyle getDefaultVertexStyle() {
-		if (defaultVS == null) {
-			defaultVS = new VertexStyle();
-		}
-		return defaultVS;
+        return null;
 	}
 
-	/** {@inheritDoc} */
-	public boolean isDirected() {
-		return false;
-	}
-
+    /** {@inheritDoc} */
 	@Override
-	public VertexStyle getVertexStyle(Vertex<String> vertex) {
-		if (redVS == null) {
+    public VertexStyle getVertexStyle(Vertex<?> vertex) {
+        if (redVS == null) {
 			redVS = new VertexStyle();
 			redVS.getFont().setColor("#f00");
 		}
-		return vertex.getLabel().contains("A") ? redVS : defaultVS;
+        return vertex.getLabel().contains("????") ? redVS : vertex.getStyle();
 	}
 
+    /** {@inheritDoc} */
 	@Override
-	public EdgeStyle getEdgeStyle(Edge<String> edge) {
+    public EdgeStyle getEdgeStyle(Edge<?> edge) {
 		return new EdgeStyle();
 	}
 	
