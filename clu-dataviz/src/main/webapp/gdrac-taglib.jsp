@@ -8,15 +8,14 @@
 </head>
 <body>
 
-<p>Example de Graph</p>
+<h2>TAG</H2>
 
-<p/> New Example with custom Decorator 1
 <viz:graph divId="newGraph" 
 	paramName="graph" 
 	width="500" 
 	height="300"
 	cssStyle="border:1px solid blue"
-	decorator="fr.clunven.viz.web.bam.CustomGraphDecorator">
+	decorator="fr.clunven.viz.graphdracula.bam.CustomGraphDecorator">
 </viz:graph>
 
 

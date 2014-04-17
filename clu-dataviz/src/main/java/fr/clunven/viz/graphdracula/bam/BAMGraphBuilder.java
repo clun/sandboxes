@@ -1,4 +1,4 @@
-package fr.clunven.viz.web.bam;
+package fr.clunven.viz.graphdracula.bam;
 
 import java.util.ArrayList;
 import java.util.HashMap;

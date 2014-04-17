@@ -1,4 +1,4 @@
-package fr.clunven.viz.web.domain;
+package fr.clunven.viz.domain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author <a href="mailto:cedrick.lunven@gmail.com">Cedrick LUNVEN</a>
  */
 @XmlRootElement
-public class D3TreeElement {
+public class TreeNode {
 	
 	/** Unique identifier of the Graph. */
 	private String name;
@@ -20,14 +20,14 @@ public class D3TreeElement {
 	private Integer size = null;
 	
 	/** List of children. */
-	private List < D3TreeElement > children = new ArrayList<D3TreeElement>();
+	private List < TreeNode > children = new ArrayList<TreeNode>();
 	
 	/**
 	 * Constructor with uid.
 	 * @param name
 	 * 		uid for the node
 	 */
-	public D3TreeElement(String name) {
+	public TreeNode(String name) {
 		this.name = name;
 	}
 	
@@ -36,7 +36,7 @@ public class D3TreeElement {
 	 * @param name
 	 * 		uid for the node
 	 */
-	public D3TreeElement(String name, int size) {
+	public TreeNode(String name, int size) {
 		this.name = name;
 		this.size = size;
 	}
@@ -46,7 +46,7 @@ public class D3TreeElement {
 	 * @param child
 	 * 		subnode
 	 */
-	public void addChild(D3TreeElement child) {
+	public void addChild(TreeNode child) {
 		children.add(child);
 	}
 	
@@ -56,7 +56,7 @@ public class D3TreeElement {
 	 * 		subnode
 	 */
 	public void addChild(String childName) {
-		children.add(new D3TreeElement(childName));
+		children.add(new TreeNode(childName));
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class D3TreeElement {
 	 * 		subnode
 	 */
 	public void addChild(String childName, int size) {
-		children.add(new D3TreeElement(childName, size));
+		children.add(new TreeNode(childName, size));
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class D3TreeElement {
 	 * @return
 	 *       current value of 'children'
 	 */
-	public List<D3TreeElement> getChildren() {
+	public List<TreeNode> getChildren() {
 		return children;
 	}
 
@@ -121,7 +121,7 @@ public class D3TreeElement {
 	 * @param children
 	 * 		new value for 'children '
 	 */
-	public void setChildren(List<D3TreeElement> children) {
+	public void setChildren(List<TreeNode> children) {
 		this.children = children;
 	}
 	

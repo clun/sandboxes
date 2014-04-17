@@ -1,4 +1,4 @@
-package fr.clunven.viz.web.bam;
+package fr.clunven.viz.graphdracula.bam;
 
 import fr.clunven.domain.graph.Edge;
 import fr.clunven.domain.graph.Vertex;

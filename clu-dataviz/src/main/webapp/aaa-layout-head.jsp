@@ -46,10 +46,9 @@
 						
 						<li class="nav-header"><i class="icon-cog"></i>Graphdracula</li>
 						<ul>
-							
-							<li><a href="gdrac-taglib.jsp">Tag lib</a></li>
-							<li><a href="gdrac-applications.jsp">Bubbles</a></li>
-							<li><a href="gdrac-applications-samples.jsp">Workflow Sample</a></li>
+							<li><a href="gdrac-applications.jsp">List</a></li>
+							<li><a href="gdrac-applications-samples.jsp">Workflows</a></li>
+							<li><a href="gdrac-taglib.jsp">Renderer by TagLib</a></li>
 						</ul>
 						<p>
 						<li class="nav-header"><i class="icon-th-list"></i>D3Js</li>
@@ -65,7 +64,9 @@
 						<p>
 						<li class="nav-header"><i class="icon-home"></i>JqPlot</li>
 						<ul>
-							<li><a href="jqplot.jsp">Core</a></li>
+							<li><a href="jqplot-pie.jsp">Pie</a></li>
+							<li><a href="jqplot-bar.jsp">Bar</a></li>
+							<li><a href="jqplot-bubble.jsp">Bubble</a></li>
 						</ul>
 					</ul>
 				</div>

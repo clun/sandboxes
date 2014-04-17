@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import fr.clunven.domain.graph.Edge;
 import fr.clunven.domain.graph.Graph;
 import fr.clunven.domain.graph.Vertex;
-import fr.clunven.viz.web.bam.BAMGraphBuilder;
+import fr.clunven.viz.graphdracula.bam.BAMGraphBuilder;
 
 /**
  * Taglib to produce a Graph using GraphDracula library.
