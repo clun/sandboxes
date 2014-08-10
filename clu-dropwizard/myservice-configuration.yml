@@ -1,0 +1,5 @@
+# Fichier YAML chargé dans MyMicroServiceConf
+
+# message de bienvenue
+message: Bienvenue mister %
+defaultName: Bel Etranger
