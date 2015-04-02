@@ -4,23 +4,21 @@
 ```python
 # Lister les bases
 show databases;
-``` 
-* Utiliser une base
-```
+
+# Utiliser une base
 use X
-``` 
-* Afficher les collections
-```
+
+# Afficher les collections
 show collections;
-``` 
-* Start/Stop engine
-```bash
+
+# Start/Stop engine
 sudo mongod --shutdown --config /etc/mongodb.conf
 sudo mongod --fork --config /etc/mongodb.conf
-``` 
+```
+
 ### Recherches
 
-```javascript
+```python
 # findOne
 db.col.findOne({"fieldname":"value", "fieldname2" : value2}, {"_id":false});
 db.col.find({"field":"value", "field2" : "value2"},{"_id":false})
@@ -64,7 +62,7 @@ while(cur.hasNext()) printjson(cur.next());
 # Count
 db.col.count({ query : "value"});
 ``` 
-## Mises a jour
+### Mises a jour
 ```python
 # Update tout le document
 db.mycol.update( { query }, { newdocument})
@@ -108,7 +106,7 @@ db.mycoll.update( {}, { $set : { "field" : "value" },  { multi : true}});
 db.scores.update({ score : { $lt : 70 }}, { $inc : { score : 20 }}, {multi : true} );
 ``` 
 
-## Suppressions
+### Suppressions
 ```python
 # Remove
 db.mycol.remove( {query});
@@ -119,25 +117,23 @@ db.mycol.remove({});
 # Supprimer tous les documents d'un coup
 db.mycol.drop();
 ```
-####################
-#### CONNEXION #####
-####################
-mongo --port 27017 -u phoury -p phoury2014 --authenticationDatabase admin
-mongo --port 22012 -u jmoisson -p moisson2014 -db dico
-mongo localhost:22012/USERS -u jmoisson -p moisson2014
-mongo --port 22012 -u phoury -p phoury2014 --authenticationDatabase admin
-db.auth("phoury","phoury2014");
 
-###################
-#### USERS     ####
-###################
-db.createUser( { user: "phoury", pwd: "phoury2014", roles:[ {role: "userAdminAnyDatabase", db: "admin"}] })
-db.createUser({ "user": "clunven", "pwd": "clunven",    "roles":[  {  "role": "userAdmin",  "db": "USERS" },  {  "role": "dbOwner",  db: "USERS" }] });
-db.createUser({ "user": "clunven", "pwd": "clunven",    "roles":[  {  "role": "userAdmin",  "db": "theta" },  {  "role": "dbOwner",  db: "theta" }] });
-db.createUser({ "user": "jmoisson", "pwd": "moisson2014",  "roles":[  {  "role": "userAdmin",  "db": "theta" },  {  "role": "dbOwner",  db: "theta" }] });
+### CONNEXION
+```python
+mongo --port 27017 -u user -p password --authenticationDatabase admin
+mongo --port 22012 -u user -p password -db dico
+mongo localhost:22012/USERS -u jmoisson -p xxxx
+mongo --port 22012 -u user -p xxxx --authenticationDatabase admin
+db.auth("user","xxx");
+```
 
-db.grantRolesToUser("phoury", [ {  "role": "readWriteAnyDatabase",  "db": "admin" } ] )
-db.grantRolesToUser("jmoisson", [ { "role" : "readWrite","db" : "dico"}, {"role" : "read", "db" : "dico"}, {"role" : "dbOwner","db" : "dico"},{"role" : "userAdmin","db" : "dico"}] )
+### USERS
+```python
+db.createUser( { user: "utilisateur", pwd: "cccc", roles:[ {role: "userAdminAnyDatabase", db: "admin"}] })
+db.createUser({ "user": "user", "pwd": "password",    "roles":[  {  "role": "userAdmin",  "db": "USERS" },  {  "role": "dbOwner",  db: "USERS" }] });
+
+db.grantRolesToUser("loulou", [ {  "role": "readWriteAnyDatabase",  "db": "admin" } ] )
+db.grantRolesToUser("loulou", [ { "role" : "readWrite","db" : "dico"}, {"role" : "read", "db" : "dico"}, {"role" : "dbOwner","db" : "dico"},{"role" : "userAdmin","db" : "dico"}] )
 db.grantRolesToUser("jmoisson", [ {  "role": "userAdmin",  "db": "theta" }, {role: "dbOwner", db: "theta"} ] )
 db.grantRolesToUser("clunven", [ {role: "dbOwner", db: "USER_TAGS"}, { "role": "userAdmin",  "db": "USER_TAGS" } ] )
 
@@ -148,56 +144,48 @@ db.addUser('jmoisson', 'moisson2014')
 db.getUser("jmoisson");
 db.getRole("jmoisson");
 db.removeUser('jmoisson')
+```
 
-###################
-#### DICO      ####
-###################
-db.createCollection("word");
-db.word.find({"stem":"work"}, {"id":1, "_id":0 });
-db.createcollection("ignoredWord", {_id:'id', capped : true, size : 5242880, max : 5000});
-db.ignoredWord.insert({ id:"this" });
-
-#################
-### ARTICLES  ###
-#################
+### ARTICLES
+```python
 db.createCollection("article",{_id:'url'});
 db.article.distinct({"sourceFeed.title"});
 db.article.count({"publishedDate": { $gt:ISODate("2014-09-22T20:25:00Z") }});
 db.article.find( { "_id" : "http://www.cnbc.com/id/102087227" }, {"title":1});
 db.article.find( { }, {"title":1}).sort({"publishedDate",-1}).limit(5);
-
 db.article.find( { "_id" : "http://www.cnbc.com/id/102185707" }, {"neightbours":1});
 db.article.find( { "sourceFeed.source" : cnbc" }, {"_id":0, "url":1});
 db.article.update( { "_id" : "http://www.cnbc.com/id/102185707" }, { $addToSet : { "neightbours" : "val1" }});
+```
 
-################
-### DISTANCE ###
-################
+### DISTANCE
+```python
 db.distances.find({"distance": {$lt:1 }})
 db.distances.ensureIndex({ "p1":1, "distance":-1});
+```
 
-###############
-### ACCOUNT ###
-###############
+### ACCOUNT
+```python
 db.createCollection("account", {_id:'username'});
 db.account.find({"username":"cedrick"})
-db.account.insert( {"username":"clu","password":"clu2014","mail":"cedrick.lunven@gmail.com","categories": [ "Politic", "Economy", "Science"],"roles": [ "USER", "ADMIN"] });
-db.account.insert( {"username":"clun","password":"clun","mail":"cedrick.lunven@gmail.com","setOfCategory": [ "Politic", "Economy", "Science"],"setOfRoles": [ "ROLE_USER", "ROLE_ADMIN"], "firstName":"cedrick", "lastName":"lunven", "website":"http://gff4j.org" });
+db.account.insert( {"username":"clu","password":"xxxx","mail":"a.a@a.com","categories": [ "Politic", "Economy", "Science"],"roles": [ "USER", "ADMIN"] });
+db.account.insert( {"username":"clun","password":"clun","mail":"a.a@a.com","setOfCategory": [ "Politic", "Economy", "Science"],"setOfRoles": [ "ROLE_USER", "ROLE_ADMIN"], "firstName":"c", "lastName":"e", "website":"http://ff4j.org" });
 db.account.update({ "username":"cedrick" }, { $unset: { "tagSet": ""} })
 db.account.update({ "username":"user" }, { $set: { "setOfRoles": [ "ROLE_USER", "ROLE-ADMIN"]} })
 db.account.update({ "username":"cedrick" },  { $set : { "tagSet" : [ { "idTag" : 1, "label" : "Thema", "seqId" : 1, "values" : [ { "name" : "Politic", 	"id" : 1 }, { "name" : "Corporate", "id" : 2 }, { "name" : "Economy", 	"id" : 3 }, { "name" : "Bourse", 	"id" : 4 }, { "name" : "Banque", 	"id" : 5 }, { "name" : "Other", "id" : 6 } ] }, { "label" : "Samples", "seqId":2,"values" : [ { "name" : "Peu", "id" : 1 }, { "name" : "Beaucoup", "id" : 2 } ] } ] } });
-db.account.update({ "username":"phoury" },  { $set:   { "idTag": 2} })
-db.account.update({ "username":"phoury" },  { $unset: { "seqid": ""} })
+db.account.update({ "username":"phour" },  { $set:   { "idTag": 2} })
+db.account.update({ "username":"phour" },  { $unset: { "seqid": ""} })
+```
 
-########################
-### BACKUP et ADMINS ###
-########################
-
+### BACKUP et ADMINS
+```python
 # Backup
 mongodump --port 22012 --db NEWS --collection word --username jmoisson --password moisson2014
 mongodump --port 22012 --db dico --collection word --username user --password user2014
+
 # Restore
 mongorestore --port 22012 --db dico --username jmoisson --password moisson2014 dump
+
 # Rename
 db.runCommand({renameCollection:"NEWS.word",to:"dico.word"})
 db.runCommand({renameCollection:"NEWS.ignoredWord",to:"dico.ignoredWord"})
@@ -205,5 +193,4 @@ db.runCommand({renameCollection:"NEWS.ignoredWord",to:"dico.ignoredWord"})
 # Get last news
 db.article.find({},{"publishedDate":1, "status":1}).sort({publishedDate:-1}).limit(5);
 db.article.remove({"url":"http://www.cnbc.com/id/102387079"});
-
-
+```
