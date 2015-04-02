@@ -63,20 +63,25 @@ db.col.find({ "attribute.sub" : "value"})
 ``` 
 db.col.find({type : "exam"}).sort({ score : -1 }).skip(50).limit(20)
 ``` 
-# Sort
+* Sort
+``` 
 db.col.find({type: "exam", score : { $gte : 65} }).sort({ score : 1 });
-# Cursor
+``` 
+* Cursor
+``` 
 cur = db.col.find();null;
 while(cur.hasNext()) printjson(cur.next());
-# Count
+``` 
+* Count
+``` 
 db.col.count({ query : "value"});
-
-####### ####### ####### Mise a jour (update) ####### ####### ####### 
-
-### Update tout le document
+``` 
+## Mises a jour
+``` 
+#Update tout le document
 db.mycol.update( { query }, { newdocument})
 db.people.update( {name : "Alice"}, { name:"Toto", salary:10000 })
-
+``` 
 ### set (ajoute ou update un champ)
 db.people.update( {name : "Alice"}, { $set : { age : 30} )
 
