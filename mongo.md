@@ -81,53 +81,56 @@ db.col.count({ query : "value"});
 # Update tout le document
 db.mycol.update( { query }, { newdocument})
 db.people.update( {name : "Alice"}, { name:"Toto", salary:10000 })
-``` 
-### set (ajoute ou update un champ)
+
+# set (ajoute ou update un champ)
 db.people.update( {name : "Alice"}, { $set : { age : 30} )
 
-### inc ajoute (si non existe cree avec le inc)
+# inc ajoute (si non existe cree avec le inc)
 db.people.update( {name : "Alice"}, { $inc : { age : 1} )
 
-### unset (enlève un champ du document)
+# unset (enlève un champ du document)
 db.people.update( {name : "Alice"}, { $unset : "age" )
 db.users.update( { "_id" : "jimmy" }, {$unset : {"interests" : [ "debating" , "politics" ] }} );
 
-### push, pop, pull, pushall
+# push, pop, pull, pushall
 db.mycoll.update( { query}, { $set : { "tab.index" : "value" }});
 
-## ajouter à la fin
+# ajouter à la fin
 db.mycoll.update( { query}, { $push : { "tab" : value}});
 db.mycoll.update( { query}, { $pushALL : { "tab" : [val1, val2, val3] }});
 
-## enlever le dernier
+# enlever le dernier
 db.mycoll.update( { query}, { $pop : { "tab" : 1 }});
 
-## enlever le premier
+# enlever le premier
 db.mycoll.update( { query}, { $pop : { "tab" : -1 }});
 
-## enlever n'importe ou
+# enlever n'importe ou
 db.mycoll.update( { query}, { $pull : { "tab" : "value" }});
 db.mycoll.update( { query}, { $pullALL : { "tab" : [val1, val2, val3] }});
 
-## Ajouter element si non existant
+# Ajouter element si non existant
 db.mycoll.update( { query}, { $addToSet : { "tab" : "value" }});
 
-## Upserts
+# Upserts
 db.mycoll.update( { query }, { $set : { "field" : "value" }, { upsert : true}});
 
-## Multi-update (Le coté transactionnel n'est pas garanti)
+# Multi-update (Le coté transactionnel n'est pas garanti)
 db.mycoll.update( {}, { $set : { "field" : "value" },  { multi : true}});
 db.scores.update({ score : { $lt : 70 }}, { $inc : { score : 20 }}, {multi : true} );
+``` 
 
-####### ####### ####### Suppression (remove) ####### ####### #######
- 
-## Remove
+## Suppressions
+```python
+# Remove
 db.mycol.remove( {query});
-## Supprimer tous les documents 1 par 1
-db.mycol.remove({});
-## Supprimer tous les documents d'un coup
-db.mycol.drop();
 
+# Supprimer tous les documents 1 par 1
+db.mycol.remove({});
+
+# Supprimer tous les documents d'un coup
+db.mycol.drop();
+```
 ####################
 #### CONNEXION #####
 ####################
