@@ -1,8 +1,8 @@
-## Queries For MongoDB
+### Queries For MongoDB
 
-### Généralités
-* Lister les bases
-```
+### Fonctions
+```python
+# Lister les bases
 show databases;
 ``` 
 * Utiliser une base
@@ -20,60 +20,48 @@ sudo mongod --fork --config /etc/mongodb.conf
 ``` 
 ### Recherches
 
-* findOne
-``` 
+```javascript
+# findOne
 db.col.findOne({"fieldname":"value", "fieldname2" : value2}, {"_id":false});
 db.col.find({"field":"value", "field2" : "value2"},{"_id":false})
 db.col.find({"field":{$gt : 50, $lte : 60}, "fieldname2" : "value2"},{"_id":false})
-``` 
-* exist
-``` 
+
+# exist
 db.col.find({ attribute : { $exists : true }});
-``` 
-* type (2=String)
-``` 
+
+# type (2=String)
 db.col.find({ attribute : { $type : 2 }});
-```
-* regex
-``` 
+
+# regex
 db.col.find({ attribute : { $regex : "blabla" }});
 db.col.find({ name : { $regex : "q" }, email : { $exists: true } } );
-``` 
-* OR
-``` 
+
+# OR
 db.col.find( { $or : [ { field : {$lt : 50} }, {field : {$gt : 90}} ] })
-``` 
-* AND (inutile)
-``` 
+
+# AND (inutile)
 db.col.find( { $and : [ { field : {$lt : 50} }, {field : {$gt : 90}} ] })
-``` 
-* $all 
-``` 
+
+# $all 
 db.col.find( { attribute : { $all : [ "val1", "val2" ] } });
-```
-* $in
-``` 
+
+# $in
 db.col.find( { attribute : { $in : [ "val1", "val2" ] } });
-``` 
-* dot.notation (regarde uniquement le champ recherché)
-``` 
+
+# dot.notation (regarde uniquement le champ recherché)
 db.col.find({ "attribute.sub" : "value"})
-``` 
-* Skip, limit
-``` 
+
+# Skip, limit
 db.col.find({type : "exam"}).sort({ score : -1 }).skip(50).limit(20)
-``` 
-* Sort
-``` python
-db.col.find({type: "exam", score : { $gte : 65} }).sort({ score : 1 });
-``` 
-* Cursor
-```javascript 
+
+# Sort
+bb.col.find({type: "exam", score : { $gte : 65} }).sort({ score : 1 });
+
+# Cursor
 cur = db.col.find();null;
 while(cur.hasNext()) printjson(cur.next());
-``` 
-* Count
-```python 
+
+# Count
 db.col.count({ query : "value"});
 ``` 
 ## Mises a jour
