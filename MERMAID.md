@@ -19,7 +19,7 @@ category {
     UUID category_id PK "identifier of category"
     TEXT name "Category name"
     TEXT image "Category image"
-    LIST_TEXT_ products "List of products id"
+    LIST_OF_TEXT products "List of products id"
 }
 
 product {
@@ -40,5 +40,9 @@ price {
     TEXT store_id PK
     DECIMAL value
 }
-category ||--o{ product : use
+
+
+ category ||--o{ product : use
+
+  
 ```
