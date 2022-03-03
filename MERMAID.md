@@ -15,11 +15,11 @@ graph TD;
 erDiagram
 
 category {
-    UUID parent_id PK "identifier of parent"
-    UUID category_id PK "identifier of category"
-    TEXT name "Category name"
-    TEXT image "Category image"
-    LIST_OF_TEXT products "List of products id"
+    UUID parent_id 
+    UUID category_id
+    TEXT name
+    TEXT image
+    LIST_OF_TEXT products
 }
 
 product {
@@ -36,13 +36,13 @@ product {
 }
 
 price {
-    TEXT product_id PK
-    TEXT store_id PK
+    TEXT product_id
+    TEXT store_id
     DECIMAL value
 }
 
 
  category ||--o{ product : use
 
-  
+  price||--o{ product : use
 ```
